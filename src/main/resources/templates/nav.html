@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm bg-body-tertiary">
+<nav class="navbar fixed-top navbar-expand-sm bg-primary " data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Mocktail</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -7,15 +7,16 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/mocktail}">Logs</a>
+                    <a class="nav-link active" th:href="@{/mocktail}">Logs</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/mocktail/routes}">Routes</a>
+                <li class="nav-item active">
+                    <a class="nav-link active" th:href="@{/mocktail/routes}">Routes</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-primary" th:href="@{/mocktail/route}"><b>Add Route</b></a>
+                <li class="nav-item active">
+                    <a class="btn btn-light btn-outline btn d-none d-sm-block" th:href="@{/mocktail/route}">Add Route</a>
+                    <a class="nav-link active d-sm-none" th:href="@{/mocktail/route}">Add Route</a>
                 </li>
             </ul>
         </div>
