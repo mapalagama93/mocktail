@@ -1,5 +1,5 @@
 
-[mocktail](https://postimg.cc/949yPjRG)
+![mocktail](https://postimg.cc/949yPjRG)
 
 # Simple, Extensible Mock Server
 ## Run with docker
