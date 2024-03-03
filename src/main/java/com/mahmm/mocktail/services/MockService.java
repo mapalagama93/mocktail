@@ -29,10 +29,8 @@ public class MockService {
 
     @Autowired
     private RouteService routeService;
-
     @Autowired
     private ServletContext servletContext;
-
     @Autowired
     private JSService jsService;
     @Autowired
@@ -63,7 +61,7 @@ public class MockService {
         }
         // execute script
         if (StringUtils.isNotBlank(route.getScript())) {
-            Route scriptRoute = jsService.execute(route.getScript());
+            Route scriptRoute = jsService.execute(route.getScript(), route);
             this.populate(scriptRoute, response);
         }
 
@@ -115,8 +113,10 @@ public class MockService {
         if (StringUtils.isNotBlank(src.getBody())) {
             dst.setBody(src.getBody());
         }
-        if (src.getHeaders() != null && src.getHeaders().size() > 0) {
-            dst.setHeaders(src.getHeaders());
+        if (src.getHeaders() != null) {
+            for (Map.Entry<String, String> header : src.getHeaders().entrySet()) {
+                dst.getHeaders().put(header.getKey(), header.getValue());
+            }
         }
     }
 
