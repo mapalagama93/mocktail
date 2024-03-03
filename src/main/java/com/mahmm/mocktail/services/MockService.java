@@ -5,6 +5,7 @@ import com.mahmm.mocktail.model.History;
 import com.mahmm.mocktail.model.Route;
 import com.mahmm.mocktail.utils.JSONUtils;
 import com.mahmm.mocktail.utils.Rand;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,10 @@ public class MockService {
 
     @Autowired
     private RouteService routeService;
+
+    @Autowired
+    private ServletContext servletContext;
+
     @Autowired
     private JSService jsService;
     @Autowired
@@ -36,8 +41,8 @@ public class MockService {
     @Getter
     private List<History> history = new ArrayList<>();
 
-    @Value("${mocktail.history.size:1000}")
-    private int historySize = 1000;
+    @Value("${mocktail.history.size:250}")
+    private int historySize = 250;
 
     public ResponseEntity<Object> getMockResponse() {
 
@@ -51,7 +56,7 @@ public class MockService {
         response.setStatus(route.getStatus());
         response.setBody(route.getBody());
         response.getHeaders().put("content-type", route.getProduce());
-        if(route.getHeaders() != null) {
+        if (route.getHeaders() != null) {
             for (Map.Entry<String, String> header : route.getHeaders().entrySet()) {
                 response.getHeaders().put(header.getKey(), header.getValue());
             }
@@ -126,8 +131,14 @@ public class MockService {
             if (!StringUtils.equalsIgnoreCase(route.getAccept(), contentType) && !StringUtils.equalsIgnoreCase(route.getAccept(), "*")) {
                 continue;
             }
-            String pattern = route.getPath().replace("*", ".*");
+            String pattern = route.getPath();
+            if (!pattern.startsWith("/")) {
+                pattern = "/" + pattern;
+            }
+            pattern = servletContext.getContextPath() + pattern;
+            pattern = pattern.replace("*", ".*");
             Pattern regexPattern = Pattern.compile(pattern);
+            log.debug("matching path = {}, route = {}", requestPath, pattern);
             Matcher matcher = regexPattern.matcher(requestPath);
             if (matcher.matches()) {
                 return Optional.of(route);
