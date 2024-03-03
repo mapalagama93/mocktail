@@ -15,8 +15,7 @@ import java.nio.file.Paths;
 @Service
 @ConditionalOnProperty(
         value = "mocktail.provider",
-        havingValue = "FileRouteProvider",
-        matchIfMissing = true
+        havingValue = "FileRouteProvider"
 )
 public class FileRouteProvider implements RouteProvider {
 

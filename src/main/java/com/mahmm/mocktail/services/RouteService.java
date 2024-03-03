@@ -48,6 +48,11 @@ public class RouteService {
     }
 
     public void delete(String id) {
+        this.remove(id);
+        this.routeProvider.store(JSONUtils.toStr(this.routes));
+    }
+
+    public void remove(String id) {
         Route tobeDeleted = null;
         for (Route route : this.routes) {
             if (StringUtils.equals(id, route.getId())) {
@@ -67,7 +72,7 @@ public class RouteService {
             log.info("add new route = {}", route.getId());
         } else {
             log.info("update route = {}", route.getId());
-            delete(route.getId());
+            remove(route.getId());
         }
         this.routes.add(route);
         this.routeProvider.store(JSONUtils.toStr(this.routes));

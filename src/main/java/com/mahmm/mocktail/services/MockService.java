@@ -41,8 +41,8 @@ public class MockService {
     @Getter
     private List<History> history = new ArrayList<>();
 
-    @Value("${mocktail.history.size:250}")
-    private int historySize = 250;
+    @Value("${mocktail.history.size:100}")
+    private int historySize = 100;
 
     public ResponseEntity<Object> getMockResponse() {
 

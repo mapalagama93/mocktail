@@ -45,6 +45,13 @@ public class WebFrontController {
         return "route";
     }
 
+    @DeleteMapping("/route/delete")
+    @ResponseBody
+    public String routeDelete(@RequestParam String id) {
+        routeService.delete(id);
+        return "route";
+    }
+
 
 
 }

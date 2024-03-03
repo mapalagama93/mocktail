@@ -4,96 +4,102 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Mocktail Logs</title>
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css"/>
     <style>
-        .CodeMirror {
-            border: 1px solid rgb(204, 204, 204)
-        }
-
-        .CodeMirror-focused {
-            border: 1px solid rgb(204, 204, 204)
-        }
         pre {
             white-space: pre-wrap
         }
+        body {
+            font-family: monospace
+        }
+
+
+
     </style>
 </head>
 
 <body>
-    <div th:include="nav.html"></div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12 mt-4">
-                <h3>Log</h3>
-            </div>
+<div th:include="nav.html"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 mt-4">
+            <h3>Log</h3>
         </div>
-
-        <table class="table" style="font-size: 12px; font-family: monospace">
-            <thead>
-                <th>Info</th>
-                <th width="40%">Request</th>
-                <th width="40%">Response</th>
-            </thead>
-            <tbody>
-                <tr th:each="his : ${history}">
-                    <td>
-                        <label>
-                            <b>Path :</b> <span th:text="${his.path}"></span>
-                        </label>
-                        <br>
-                        <br>
-                        <label>
-                            <b>Time :</b> <span th:text="${his.time}"></span>
-                        </label>
-                        <br>
-                        <label>
-                            <b>Route :</b> <span th:text="${his.name}"></span>
-                        </label>
-                        <br>
-                        <label>
-                            <b>Id :</b> <span th:text="${his.id}"></span>
-                        </label>
-                        <br>
-                    </td>
-                    <td>
-                        <label>
-                            <b>Query Params :</b> <br> <pre th:text="${his.requestParams}"></pre>
-                        </label>
-                        <br>
-                        <label>
-                            <b>Request Body :</b> <br> <pre th:text="${his.requestBody}"></pre>
-                        </label>
-                        <br>
-                        <label>
-                            <b>Request Headers :</b> <br> <pre th:text="${his.requestHeaders}"></pre>
-                        </label>
-                        <br>
-                    </td>
-                    <td>
-                        <label>
-                            <b>Status:</b> <br> <span th:text="${his.status}"></span>
-                        </label>
-                        <br>
-                        <label>
-                            <b>Response Body :</b> <br> <pre th:text="${his.responseBody}"></pre>
-                        </label>
-                        <br>
-                        <label>
-                            <b>Request Headers :</b> <br> <pre th:text="${his.responseHeaders}"></pre>
-                        </label>
-                        <br>
-                    </td>
-
-                </tr>
-
-            </tbody>
-        </table>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <table class="table" style="font-size: 14px">
+        <thead>
+        <th width="45%">Request</th>
+        <th width="45%">Response</th>
+        <th width="">View</th>
+        </thead>
+        <tbody>
+        <tr th:each="his : ${history}">
+            <td>
+                <label>
+                    <span class="bg-secondary text-light">&nbsp;<span th:text="${his.time}"></span>&nbsp;</span>  <span th:text="${his.path}" style="font-weight: bold" class="text-primary">/adasdasd</span>
+                </label>
+                <br>
+                <div class="collapse" th:id="|request-${his.id}|">
+                    <label>
+                        <span class="bg-secondary text-light">&nbsp;Query Params :&nbsp;</span> <br>
+                        <pre th:text="${his.requestParams}"></pre>
+                    </label>
+                    <br>
+                    <label>
+                        <span class="bg-secondary text-light">&nbsp;Request Body :&nbsp;</span> <br>
+                        <pre th:text="${his.requestBody}"></pre>
+                    </label>
+                    <br>
+                    <label>
+                        <span class="bg-secondary text-light">&nbsp;Request Headers :&nbsp;</span> <br>
+                        <pre th:text="${his.requestHeaders}"></pre>
+                    </label>
+                    <br>
+                    <label style="font-size: 8px">
+                        [<span th:text="${his.name}"></span> | <span th:text="${his.id}"></span>]
+                    </label>
+                    <br>
+                </div>
+            </td>
+            <td>
+                <label>
+                    <span class="bg-secondary text-light">&nbsp;Response Code :&nbsp;</span> <br>  <span th:text="${his.status}"></span>
+                </label>
+                <br>
+                <br>
+                <div class="collapse" th:id="|request-${his.id}|">
+                    <label>
+                        <span class="bg-secondary text-light">&nbsp;Response Body :&nbsp;</span> <br>
+                        <pre th:text="${his.responseBody}"></pre>
+                    </label>
+                    <br>
+                    <label>
+                        <span class="bg-secondary text-light">&nbsp;Response Headers :&nbsp;</span> <br>
+                        <pre th:text="${his.responseHeaders}"></pre>
+                    </label>
+                    <br>
+                </div>
+            </td>
+            <td>
+                <a class="btn btn-outline-primary"
+                   style="--bs-btn-padding-y: .20rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .7rem;"
+                   data-bs-toggle="collapse" th:href="@{#request-{id}(id=${his.id})}" role="button"
+                   aria-expanded="false" aria-controls="collapseExample">
+                    <b> View Request</b>
+                </a>
+            </td>
+
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
