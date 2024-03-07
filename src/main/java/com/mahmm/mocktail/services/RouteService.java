@@ -31,7 +31,7 @@ public class RouteService {
     }
 
     public Route getDefaultRoute() {
-        return new Route("default", "Default Route", null, null, "200", null, "application/json", "fixed", null, "{\"message\" : \"No routes matched this request.\"}", Map.of());
+        return new Route("default", "Default Route", null, null, "200", null, "application/json", "fixed", null, "{\"message\" : \"No routes matched this request.\"}", "0", Map.of());
     }
 
     public List<Route> getRoutes() {

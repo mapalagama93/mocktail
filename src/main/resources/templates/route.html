@@ -56,7 +56,7 @@
                 <option value="PATCH">PATCH</option>
             </select>
         </div>
-        <div class="col-10 mb-3">
+        <div class="col-8 mb-3">
             <label class="form-label">Path</label>
             <input type="text" class="form-control" v-model="path" placeholder="/api/json">
         </div>
@@ -74,6 +74,11 @@
             <label class="form-label">Response Content Type</label>
             <input type="text" class="form-control" v-model="produce"
                    placeholder="Enter * to accept any content type">
+        </div>
+        <div class="col-2 mb-3">
+            <label class="form-label">Delay (ms)</label>
+            <input type="number" class="form-control" v-model="delay"
+                   placeholder="Delay in ms">
         </div>
         <div class="col-2 mb-3">
             <label class="form-label">Type</label>
@@ -175,6 +180,7 @@
         window.route_type = [[${route.type}]];
         window.route_script = [[${route.script}]];
         window.route_body = [[${route.body}]];
+        window.route_delay = [[${route.delay}]];
         window.route_headers = JSON.stringify([[${route.headers}]], null, 2);
 
 
@@ -186,6 +192,7 @@
         window.route_method = "*";
         window.route_path = null;
         window.route_status = "200";
+        window.route_delay = "0";
         window.route_accept = "*";
         window.route_produce = "application/json";
         window.route_type = "fixed";
@@ -196,6 +203,9 @@
 
 </script>
 <script>
+        function isNumeric(n) {
+          return !isNaN(parseFloat(n)) && isFinite(n);
+        }
         function setupEditors(type) {
             if (type == 'fixed') {
                 window.fixedBody = CodeMirror.fromTextArea(document.getElementById("fixed"), {
@@ -253,6 +263,7 @@
             data() {
                         return {
                             id: window.route_id,
+                            delay: window.route_delay,
                             name: window.route_name,
                             method: window.route_method,
                             path: window.route_path,
@@ -299,6 +310,7 @@
                                 id: this.id,
                                 name: this.name,
                                 method: this.method,
+                                delay: this.delay,
                                 path: this.path,
                                 status: this.status,
                                 accept: this.accept,
@@ -340,6 +352,11 @@
                     }
                     if (isBlank(this.produce)) {
                         this.err = 'Response Content Type cannot be empty'
+                        return
+                    }
+
+                     if (!isNumeric(this.delay)) {
+                        this.err = 'Delay must be a integer'
                         return
                     }
                     if (this.type == 'fixed') {

@@ -47,6 +47,14 @@ public class MockService {
         Optional<Route> matchingRoute = getMatchingRoute(request.getMethod(), request.getContentType(), request.getRequestURI());
         Route route = matchingRoute.orElseGet(() -> routeService.getDefaultRoute());
 
+        if(route.getDelayInt() > 0) {
+            try {
+                Thread.sleep(route.getDelayInt());
+            } catch (InterruptedException e) {
+
+            }
+        }
+
         // convert route to response
         Route response = new Route();
         response.setId(route.getId());
