@@ -24,6 +24,7 @@
         }
 
 
+
     </style>
 </head>
 
@@ -167,6 +168,7 @@
         window.routes_url = /*[[@{/mocktail/routes}]]*/
 
 
+
 </script>
 
 <script th:inline="javascript" th:if="${route != null}">
@@ -184,6 +186,7 @@
         window.route_headers = JSON.stringify([[${route.headers}]], null, 2);
 
 
+
 </script>
 
 <script th:inline="javascript" th:if="${route == null}">
@@ -199,6 +202,7 @@
         window.route_script = null;
         window.route_body = "";
         window.route_headers = "{}";
+
 
 
 </script>
@@ -334,7 +338,28 @@
                     )
                 },
                 onChangeType() {
-                    setupEditors(this.type)
+                if(window.codeBody) {
+                    this.script = window.codeBody.getValue();
+                }
+                if(window.headersInput) {
+                    this.headers = window.headersInput.getValue();
+                }
+                if(window.fixedBody) {
+                    this.body = window.fixedBody.getValue();
+                }
+
+
+                setupEditors(this.type);
+
+                if (this.type == 'script' && this.script != null) {
+                    window.codeBody.setValue(this.script)
+                }
+                if (this.type == 'fixed' && this.body != null) {
+                    window.fixedBody.setValue(this.body)
+                }
+                if (this.type == 'fixed' && this.headers != null) {
+                    window.headersInput.setValue(this.headers)
+                }
                 },
                 validate() {
 
@@ -356,7 +381,7 @@
                     }
 
                      if (!isNumeric(this.delay)) {
-                        this.err = 'Delay must be a integer'
+                        this.err = 'Delay must be a integer.'
                         return
                     }
                     if (this.type == 'fixed') {
@@ -373,13 +398,14 @@
 
                     }
                     if (this.type == 'script') {
-                        this.headers = null;
+                        this.headers = '{}';
                         this.body = null;
                         this.script = window.codeBody.getValue()
                     }
                 }
             }
         }).mount('#app')
+
 
 
 </script>
